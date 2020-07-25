@@ -37,59 +37,59 @@ import net.runelite.client.ui.overlay.OverlayUtil;
 public class APluginTutorialOverlay extends Overlay
 {
 
-	private final Client client;
-	private final APluginTutorialPlugin plugin;
-	private final APluginTutorialConfig config;
+    private final Client client;
+    private final APluginTutorialPlugin plugin;
+    private final APluginTutorialConfig config;
 
-	@Inject
-	APluginTutorialOverlay(final Client client, final APluginTutorialPlugin plugin, final APluginTutorialConfig config)
-	{
-		this.client = client;
-		this.plugin = plugin;
-		this.config = config;
-		setPosition(OverlayPosition.DYNAMIC);
-		setLayer(OverlayLayer.ABOVE_SCENE);
-	}
+    @Inject
+    APluginTutorialOverlay(final Client client, final APluginTutorialPlugin plugin, final APluginTutorialConfig config)
+    {
+        this.client = client;
+        this.plugin = plugin;
+        this.config = config;
+        setPosition(OverlayPosition.DYNAMIC);
+        setLayer(OverlayLayer.ABOVE_SCENE);
+    }
 
-	@Override
-	public Dimension render(Graphics2D graphics) {
+    @Override
+    public Dimension render(Graphics2D graphics) {
 
-		Player player = client.getLocalPlayer();
-		if (player == null) {
-			return null;
-		}
+        Player player = client.getLocalPlayer();
+        if (player == null) {
+            return null;
+        }
 
-		if (!config.booleanConfig()) {
-			return null;
-		}
+        if (!config.booleanConfig()) {
+            return null;
+        }
 
-		plugin.getObjects().forEach((tileObject, theObject) ->
-		{
-			Tile objectTile = theObject.getTile();
+        plugin.getObjects().forEach((tileObject, theObject) ->
+        {
+            Tile objectTile = theObject.getTile();
 
-			if (objectTile.getPlane() == client.getPlane()) {
+            if (objectTile.getPlane() == client.getPlane()) {
 
-				Shape objectShape = tileObject.getClickbox();
+                Shape objectShape = tileObject.getClickbox();
 
-				if (objectShape != null) {
+                if (objectShape != null) {
 
-					switch (config.valueChoice()) {
+                    switch (config.valueChoice()) {
 
-						case VALUE1:
-							OverlayUtil.renderFilledPolygon(graphics, objectShape, config.colorConfig());
-							break;
-						case VALUE2:
-							OverlayUtil.renderPolygon(graphics, objectShape, config.colorConfig());
-							break;
+                        case VALUE1:
+                            OverlayUtil.renderFilledPolygon(graphics, objectShape, config.colorConfig());
+                            break;
+                        case VALUE2:
+                            OverlayUtil.renderPolygon(graphics, objectShape, config.colorConfig());
+                            break;
 
-					}
+                    }
 
-				}
-			}
+                }
+            }
 
-		});
+        });
 
-		return null;
-	}
+        return null;
+    }
 
 }

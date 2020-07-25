@@ -52,10 +52,10 @@ public interface APluginTutorialConfig extends Config
 	)
 	default Enum1 valueChoice() { return Enum1.VALUE1; }
 
-	@ConfigTitleSection(
+	@ConfigItem(
 			position = 3,
 			keyName = "secondTitle",
-			name = "Hidden if value 1",
+			name = "Hidden if value2",
 			description = "This will be hidden if Enum1 is Value1.",
 			titleSection = "firstTitle",
 			hidden = true,
@@ -63,13 +63,13 @@ public interface APluginTutorialConfig extends Config
 			unhideValue = "VALUE1"
 
 	)
-	default Title secondTitle() { return new Title(); }
+	default String stringConfig() { return "hello"; }
 
 	@ConfigTitleSection(
 			position = 4,
-			keyName = "thirdTitle",
-			name = "Third Title",
-			description = "This is the third title."
+			keyName = "secondTitle",
+			name = "Second Title",
+			description = "This is the second title."
 
 	)
 	default Title thirdTitle() { return new Title(); }
@@ -79,7 +79,7 @@ public interface APluginTutorialConfig extends Config
 			keyName = "intConfig",
 			name = "int config",
 			description = "Set an int value.",
-			titleSection = "thirdTitle"
+			titleSection = "secondTitle"
 	)
 	default int intConfig() { return 0; }
 
@@ -92,7 +92,7 @@ public interface APluginTutorialConfig extends Config
 			keyName = "intConfigRange",
 			name = "int config range",
 			description = "Set an int value.",
-			titleSection = "thirdTitle"
+			titleSection = "secondTitle"
 	)
 	default int intConfigRange() { return 73; }
 
@@ -101,7 +101,7 @@ public interface APluginTutorialConfig extends Config
 			keyName = "booleanConfig",
 			name = "boolean Config",
 			description = "Set a boolean value.",
-			titleSection = "thirdTitle"
+			titleSection = "secondTitle"
 	)
 	default boolean booleanConfig() { return false; }
 
@@ -110,7 +110,7 @@ public interface APluginTutorialConfig extends Config
 			keyName = "colorConfig",
 			name = "color Config",
 			description = "Set a color value.",
-			titleSection = "thirdTitle"
+			titleSection = "secondTitle"
 	)
 	default Color colorConfig() { return Color.WHITE; }
 

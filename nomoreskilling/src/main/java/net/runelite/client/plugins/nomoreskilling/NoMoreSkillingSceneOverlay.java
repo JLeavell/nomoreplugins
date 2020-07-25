@@ -31,8 +31,10 @@ import javax.inject.Singleton;
 import java.awt.Graphics2D;
 import java.time.Duration;
 import java.time.Instant;
-
+import java.util.ArrayList;
+import java.util.List;
 import net.runelite.api.*;
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.ui.overlay.*;
@@ -55,6 +57,31 @@ class NoMoreSkillingSceneOverlay extends Overlay {
 
 	private Instant lastIdle;
 	private Instant currentTime;
+	private Instant lastAnimating;
+	private int lastAnimation = AnimationID.IDLE;
+	private Instant lastInteracting;
+	private Actor lastInteract;
+	private Instant lastMoving;
+	private WorldPoint lastPosition;
+	private boolean notifyPosition = false;
+	private boolean notifyHitpoints = true;
+	private boolean notifyPrayer = true;
+	private boolean notifyOxygen = true;
+	private boolean notifyIdleLogout = true;
+	private boolean notify6HourLogout = true;
+	private int lastSpecEnergy = 1000;
+	private int lastCombatCountdown = 0;
+	private Instant sixHourWarningTime;
+	private boolean ready;
+	private Instant lastTimeItemsUsedUp;
+	private List<Integer> itemIdsPrevious = new ArrayList<>();
+	private List<Integer> itemQuantitiesPrevious = new ArrayList<>();
+	private final List<Integer> itemQuantitiesChange = new ArrayList<>();
+	private boolean lastInteractWasCombat;
+	private boolean interactingNotified;
+	private SkullIcon lastTickSkull = null;
+	private boolean isFirstTick = true;
+	private boolean resourceDoorReady = false;
 
 	@Inject
 	private NoMoreSkillingSceneOverlay(final Client client, final NoMoreSkillingConfig config, final NoMoreSkillingPlugin plugin) {
@@ -68,6 +95,8 @@ class NoMoreSkillingSceneOverlay extends Overlay {
 
 	@Override
 	public Dimension render(Graphics2D graphics) {
+		final Player local = client.getLocalPlayer();
+		final Duration waitDuration = Duration.ofMillis(0);
 		if (config.displayBank()) {
 			Widget bankWidget = client.getWidget(WidgetInfo.BANK_TITLE_BAR);
 			if (bankWidget != null && !bankWidget.isHidden()) {
@@ -89,8 +118,12 @@ class NoMoreSkillingSceneOverlay extends Overlay {
 				idleCheck = true;
 				animatedCheck = false;
 			}
-			if(client.getLocalPlayer().getAnimation() != IDLE && !animatedCheck) {
+			if(client.getLocalPlayer().getAnimation() != IDLE && !animatedCheck ) {
 				animatedCheck = true;
+				idleCheck = false;
+			}
+			if (checkMovementIdle(waitDuration, local))
+			{
 				idleCheck = false;
 			}
 			if (idleCheck) {
@@ -141,5 +174,35 @@ class NoMoreSkillingSceneOverlay extends Overlay {
 		int y = (int) (actor.getConvexHull().getBounds().getCenterY() - 4 / 2);
 		graphics.setColor(color);
 		graphics.fillRect(x, y, 4, 4);
+	}
+
+	private boolean checkMovementIdle(Duration waitDuration, Player local)
+	{
+		if (lastPosition == null)
+		{
+			lastPosition = local.getWorldLocation();
+			return false;
+		}
+
+		WorldPoint position = local.getWorldLocation();
+
+		if (lastPosition.equals(position))
+		{
+			if (notifyPosition
+					&& local.getAnimation() == IDLE
+					&& Instant.now().compareTo(lastMoving.plus(waitDuration)) >= 0)
+			{
+				notifyPosition = false;
+				// Return true only if we weren't just breaking out of an animation
+				return lastAnimation == IDLE;
+			}
+		}
+		else
+		{
+			notifyPosition = true;
+			lastPosition = position;
+			lastMoving = Instant.now();
+		}
+		return false;
 	}
 }

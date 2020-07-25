@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Plugin-Version: 0.0.1
+Plugin-Id: nomoremenuindicators-plugin
+Plugin-Provider: NoMoreAHK
+Plugin-Description: description.
+Plugin-License: GNU General Public License v3.0
+

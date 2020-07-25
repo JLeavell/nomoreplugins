@@ -181,5 +181,21 @@
         "requires":"0.0.1"
       }
     ]
+  },
+  {
+    "projectUrl": "https://discord.gg/7W9aBCb",
+    "provider": "First to Fall",
+    "name": "NoMore Menu Indicators",
+    "description": "A plugin to render an overlay over game menu tabs.",
+    "id": "nomoremenuindicators-plugin",
+    "releases": [
+      {
+        "date": "2020-07-21",
+        "sha512sum": "FD1AB1C86255399CFDAFFFDF126B323EFCC4A65670FAE69988E72E41BE6E6A86D1BF57BF8647D0519B4FD32298710D9805A432C5BDB0AE03D1CC451495109458",
+        "version": "0.0.1",
+        "url": "https://github.com/TomMartow/nomoreplugins/blob/master/release/nomoremenuindicators-0.0.1.jar?raw=true",
+        "requires":"0.0.1"
+      }
+    ]
   }
 ]

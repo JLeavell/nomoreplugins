@@ -49,7 +49,8 @@ public class NoMoreMenuIndicatorsOverlay extends Overlay {
         renderBox(graphics, client.getWidget(164,65).getBounds(), config.prayerColor(),boxSize);
         renderBox(graphics, client.getWidget(164,66).getBounds(), config.magicColor(),boxSize);
         renderBox(graphics, client.getWidget(164,32).getBounds(), config.logoutColor(),boxSize);
-        renderBox(graphics, client.getWidget(182,8).getBounds(), config.logoutColor(),boxSize);}
+        if(!client.getWidget(182,8).isHidden())
+            renderBox(graphics, client.getWidget(182,8).getBounds(), config.logoutColor(),boxSize);}
         else{
             renderBox(graphics, client.getWidget(548,41).getBounds(), config.clanColor(),boxSize);
             renderBox(graphics, client.getWidget(548,42).getBounds(), config.accountColor(),boxSize);
